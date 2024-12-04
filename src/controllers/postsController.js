@@ -41,7 +41,6 @@ export async function uploadImagem(req, res) {
 export async function atualizarNovoPost(req, res) {
     const id = req.params.id;
     const urlImagem = `http://localhost:3000/${id}.png`
-    
     try {
         const imgBuffer = fs.readFileSync(`uploads/${id}.png`)
         const descricao = await gerarDescricaoComGemini(imgBuffer)
@@ -49,12 +48,13 @@ export async function atualizarNovoPost(req, res) {
         const post = {
             imgUrl: urlImagem,
             descricao: descricao,
-            alt: req.body.alt,
+            alt: req.body.alt
         }
+
         const postCriado = await atualizarPost(id, post);
         res.status(200).json(postCriado);  
     } catch(erro) {
         console.error(erro.message);
-        res.status(500).json({"Erro":"Falha na requisição"})
+        res.status(500).json({"Erro":"Falha na requisição"});
     }
 }
